@@ -13,6 +13,9 @@ contract MSCEngine {
     event Liquidated(address indexed user, address indexed collateralAddress, uint amount);
 
     uint private constant ADDITIONAL_FEED_PRECISION = 1e10;
+
+    // Static precision, i.e. if you put something like WBTC in getTokenAmountForUSD(),
+    // you'll get 10x value in result.
     uint private constant PRECISION = 1e18;
 
     mapping(address token => address priceFeed) private tokenToPriceFeed;
@@ -23,6 +26,7 @@ contract MSCEngine {
     MSC private immutable i_msc;
 
     constructor(address[] memory tokenAddresses, address[] memory priceFeeds, address mscAddress) {
+        require(tokenAddresses.length >= 1, "MSCEngine: Invalid input");
         require(tokenAddresses.length == priceFeeds.length, "MSCEngine: Invalid input");
 
         for (uint i = 0; i < tokenAddresses.length; i++) {
@@ -173,10 +177,10 @@ contract MSCEngine {
         emit CollateralRedeemed(from, collateralAddress, amount);
     }
 
-    function _burn(address onBehafeOf, uint amount, address burnFrom) internal {
-        require(debtBalances[onBehafeOf] >= amount, "MSCEngine: Insufficient debt balance");
+    function _burn(address onBehaveOf, uint amount, address burnFrom) internal {
+        require(debtBalances[onBehaveOf] >= amount, "MSCEngine: Insufficient debt balance");
 
-        if (onBehafeOf != burnFrom) {
+        if (onBehaveOf != burnFrom) {
             require(
                 ERC20(i_msc).balanceOf(burnFrom) >= amount,
                 "MSCEngine: Burner has insufficient balance"
@@ -185,7 +189,7 @@ contract MSCEngine {
 
         ERC20(i_msc).transferFrom(burnFrom, address(this), amount);
         i_msc.burn(amount);
-        debtBalances[onBehafeOf] -= amount;
+        debtBalances[onBehaveOf] -= amount;
 
         emit DebtBurned(burnFrom, amount);
     }

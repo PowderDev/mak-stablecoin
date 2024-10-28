@@ -1,18 +1,18 @@
 # Mak Stablecoin
 
-What is this project consist of?
+This project consist of:
 
 - Mak Stablecoin
-  - Fully tested collateralized stablecoin.
-  - Takes LINK (potentially any ERC20) as collateral and mints MSC
-  - Uses Chainlink price feeds to determine the collateralization ratio
+    - Fully tested collateralized stablecoin.
+    - Takes LINK (potentially any ERC20) as collateral and mints MSC
+    - Uses Chainlink price feeds to determine the collateralization ratio
 - Mak NFT
-  - ERC721 NFT contract
-  - Uses Chainlink VRF to generate random numbers for the NFTs
-  - Can be bought only with MSC
+    - ERC721 NFT contract
+    - Uses Chainlink VRF to generate random numbers for the NFTs
+    - Can be bought only with MSC
 - Blockchain Indexer
-  - Indexes all the events from the Mak Stablecoin and Mak NFT contracts (and potentially any other events)
-  - Uses Radis as a db and a pubsub system
+    - Indexes all the events from the Mak Stablecoin and Mak NFT contracts (and potentially any other events)
+    - Uses Redis as a db and a pubsub system
 - Frontend
 - Backend
 
